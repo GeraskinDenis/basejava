@@ -10,6 +10,12 @@ public class ArrayStorage
 
     void clear()
     {
+        for (int i = 0; i < size - 1; i++)
+        {
+            storage[i] = null;
+        }
+
+        size = 0;
     }
 
     void save(Resume resume)
