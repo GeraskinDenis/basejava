@@ -24,7 +24,7 @@ public class ArrayStorage
 
         if (resume.uuid.isEmpty()) return;
 
-        for (int i = 0; i < storage.length; i++)
+        for (int i = 0; i < size; i++)
         {
             if (storage[i].uuid.equals(resume.uuid))
             {
@@ -36,7 +36,7 @@ public class ArrayStorage
 
         if ((size + 1) > storage.length)
         {
-            // Что делать при переполнении базы???
+            // Что делать при переполнении размера базы???
             return;
         }
 
