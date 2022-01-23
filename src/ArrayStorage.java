@@ -45,12 +45,19 @@ public class ArrayStorage
 
     Resume get(String uuid)
     {
+        for (int i = 0; i < size; i++)
+        {
+            if (storage[i].uuid.equals(uuid))
+                return storage[i];
+        }
+
         return null;
+
     }
 
     void delete(String uuid)
     {
-        if(uuid.isEmpty())
+        if (uuid.isEmpty())
         {
             return;
         }
@@ -59,7 +66,7 @@ public class ArrayStorage
 
         for (int i = 0; i < size; i++)
         {
-            if(storage[i].uuid.equals(uuid))
+            if (storage[i].uuid.equals(uuid))
             {
                 storage[i] = null;
                 indexOfNull = i;
@@ -72,10 +79,10 @@ public class ArrayStorage
             return;
         }
 
-        if(indexOfNull != (size - 1))
+        if (indexOfNull != (size - 1))
         {
-            storage[indexOfNull] = storage[size -1];
-            storage[size -1] = null;
+            storage[indexOfNull] = storage[size - 1];
+            storage[size - 1] = null;
         }
 
         size--;
