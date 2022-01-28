@@ -44,18 +44,16 @@ public class ArrayStorage {
         return Arrays.copyOf(storage, size);
     }
 
-    private int getIndex(Resume resume)
-    {
+    private int getIndex(Resume resume) {
         for (int i = 0; i < size; i++) {
-            if(storage[i] == resume) return i;
+            if (storage[i] == resume) return i;
         }
         return -1;
     }
 
-    private int getIndex(String uuid)
-    {
+    private int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
-            if(storage[i].uuid.equals(uuid)) return i;
+            if (storage[i].uuid.equals(uuid)) return i;
         }
         return -1;
     }
@@ -66,6 +64,15 @@ public class ArrayStorage {
 
     public int size() {
         return size;
+    }
+
+    public void update(Resume resume) {
+        int index = getIndex(resume);
+        if (index < 0) {
+            System.out.println("Ошибка обновления резюме! В базе не найдено резюме с uuid = " + resume.uuid);
+            return;
+        }
+        storage[index] = resume;
     }
 
 }
