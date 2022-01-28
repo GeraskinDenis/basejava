@@ -53,7 +53,16 @@ public class ArrayStorage {
     }
 
     public void save(Resume resume) {
-        storage[size++] = resume;
+        if (size + 1 > storage.length) {
+            System.out.println("Ошибка сохранения! Закончилось место в хранилище.");
+            return;
+        }
+        int index = getIndex(resume.uuid);
+        if (index < 0) {
+            storage[size++] = resume;
+        } else {
+            System.out.println("Ошибка сохранения! Резюме с uuid = '" + resume.uuid + "' уже присутствует в хранилище.");
+        }
     }
 
     public int size() {
