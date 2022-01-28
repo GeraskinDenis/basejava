@@ -30,11 +30,13 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid))
-                return storage[i];
+        int index = getIndex(uuid);
+        if(index < 0)
+        {
+            System.out.println("Ошибка! В базе отсутствует резюме с uuid = " + uuid);
+            return null;
         }
-        return null;
+        return storage[index];
     }
 
     /**
