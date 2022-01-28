@@ -45,13 +45,6 @@ public class ArrayStorage {
         return Arrays.copyOf(storage, size);
     }
 
-    private int getIndex(Resume resume) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i] == resume) return i;
-        }
-        return -1;
-    }
-
     private int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid)) return i;
@@ -68,7 +61,7 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        int index = getIndex(resume);
+        int index = getIndex(resume.uuid);
         if (index < 0) {
             System.out.println("Ошибка обновления резюме! В базе не найдено резюме с uuid = " + resume.uuid);
             return;
