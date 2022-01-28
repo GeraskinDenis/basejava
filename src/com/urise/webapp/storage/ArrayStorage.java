@@ -19,20 +19,19 @@ public class ArrayStorage {
     }
 
     public void delete(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)) {
-                size--;
-                storage[i] = storage[size];
-                storage[size] = null;
-                break;
-            }
+        int index = getIndex(uuid);
+        if (index < 0) {
+            System.out.println("Ошибка! В базе отсутствует резюме с uuid = " + uuid);
+            return;
         }
+        size--;
+        storage[index] = storage[size];
+        storage[size] = null;
     }
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if(index < 0)
-        {
+        if (index < 0) {
             System.out.println("Ошибка! В базе отсутствует резюме с uuid = " + uuid);
             return null;
         }
