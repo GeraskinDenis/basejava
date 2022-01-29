@@ -8,11 +8,11 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
+    private Resume[] storage = new Resume[10000];
     private int size = 0;
 
     public void clear() {
-        Arrays.fill(storage, 0, size - 1, null);
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
@@ -43,23 +43,16 @@ public class ArrayStorage {
         return Arrays.copyOf(storage, size);
     }
 
-    private int getIndex(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)) return i;
-        }
-        return -1;
-    }
-
     public void save(Resume resume) {
-        if (size + 1 > storage.length) {
+        if (size >= storage.length) {
             System.out.println("Ошибка сохранения! Закончилось место в хранилище.");
             return;
         }
-        int index = getIndex(resume.uuid);
+        int index = getIndex(resume.getUuid());
         if (index < 0) {
             storage[size++] = resume;
         } else {
-            System.out.println("Ошибка сохранения! Резюме с uuid = '" + resume.uuid + "' уже присутствует в хранилище.");
+            System.out.println("Ошибка сохранения! Резюме с uuid = '" + resume.getUuid() + "' уже присутствует в хранилище.");
         }
     }
 
@@ -68,12 +61,18 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        int index = getIndex(resume.uuid);
+        int index = getIndex(resume.getUuid());
         if (index < 0) {
-            System.out.println("Ошибка обновления резюме! В базе не найдено резюме с uuid = " + resume.uuid);
+            System.out.println("Ошибка обновления резюме! В базе не найдено резюме с uuid = " + resume.getUuid());
             return;
         }
         storage[index] = resume;
     }
 
+    private int getIndex(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].getUuid().equals(uuid)) return i;
+        }
+        return -1;
+    }
 }
