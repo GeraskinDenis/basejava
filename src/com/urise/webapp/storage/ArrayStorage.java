@@ -2,28 +2,12 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.Arrays;
-
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage extends AbstractArrayStorage {
-    private static final int STORAGE_LIMIT = 10_000;
-    private final Resume[] storage = new Resume[STORAGE_LIMIT];
-    private int size = 0;
 
-    public void clear() {
-        Arrays.fill(storage, 0, size, null);
-        size = 0;
-    }
-
-    protected int getIndex(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) return i;
-        }
-        return -1;
-    }
-
+    @Override
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
@@ -35,36 +19,38 @@ public class ArrayStorage extends AbstractArrayStorage {
         storage[size] = null;
     }
 
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
+    @Override
+    public Resume get(String uuid) {
+        int index = getIndex(uuid);
+        if (index < 0) {
+            System.out.println("Ошибка! В базе отсутствует резюме с uuid = " + uuid);
+            return null;
+        }
+        return storage[index];
     }
 
+    @Override
+    public int getIndex(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @Override
     public void save(Resume resume) {
-        if (size >= storage.length) {
+        if (size >= STORAGE_LIMIT) {
             System.out.println("Ошибка сохранения! Закончилось место в хранилище.");
             return;
         }
-        int index = getIndex(resume.getUuid());
+        String uuid = resume.getUuid();
+        int index = getIndex(uuid);
         if (index < 0) {
             storage[size++] = resume;
         } else {
-            System.out.println("Ошибка сохранения! Резюме с uuid = '" + resume.getUuid() + "' уже присутствует в хранилище.");
+            System.out.println("Ошибка сохранения! Резюме с uuid = '" + uuid + "' уже присутствует в хранилище.");
         }
-    }
-
-    public int size() {
-        return size;
-    }
-
-    public void update(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index < 0) {
-            System.out.println("Ошибка обновления резюме! В базе не найдено резюме с uuid = " + resume.getUuid());
-            return;
-        }
-        storage[index] = resume;
     }
 }

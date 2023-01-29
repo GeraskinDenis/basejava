@@ -12,18 +12,31 @@ public abstract class AbstractArrayStorage implements Storage {
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    protected abstract int getIndex(String uuid);
+    @Override
+    public void clear() {
+        Arrays.fill(storage, 0, size, null);
+        size = 0;
+    }
 
-    public int size(){
+    @Override
+    public Resume[] getAll() {
+        return Arrays.copyOf(storage, size);
+    }
+
+    public abstract int getIndex(String uuid);
+
+    @Override
+    public int size() {
         return size;
     }
 
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
+    @Override
+    public void update(Resume resume) {
+        int index = getIndex(resume.getUuid());
         if (index < 0) {
-            System.out.println("Ошибка! В базе отсутствует резюме с uuid = " + uuid);
-            return null;
+            System.out.println("Ошибка обновления резюме! В базе не найдено резюме с uuid = " + resume.getUuid());
+            return;
         }
-        return storage[index];
+        storage[index] = resume;
     }
 }
