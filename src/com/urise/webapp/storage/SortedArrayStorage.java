@@ -7,13 +7,12 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public void delete(String uuid) {
-        int deleteIndex = getIndex(uuid);
-        if (deleteIndex < 0) {
-            System.out.println("Ошибка! В базе отсутствует резюме с uuid = " + uuid);
-            return;
+    protected void deleteByIndex(int deleteIndex) {
+        size--;
+        for (int i = deleteIndex; i < size; i++) {
+            storage[i] = storage[i + 1];
         }
-        moveLeft(deleteIndex);
+        storage[size] = null;
     }
 
     @Override
@@ -65,11 +64,4 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         size++;
     }
 
-    private void moveLeft(int deleteIndex) {
-        size--;
-        for (int i = deleteIndex; i < size; i++) {
-            storage[i] = storage[i + 1];
-        }
-        storage[size] = null;
-    }
 }

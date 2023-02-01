@@ -19,6 +19,18 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     @Override
+    public final void delete(String uuid) {
+        int deleteIndex = getIndex(uuid);
+        if (deleteIndex < 0) {
+            System.out.println("Ошибка! В базе отсутствует резюме с uuid = " + uuid);
+            return;
+        }
+        deleteByIndex(deleteIndex);
+    }
+
+    protected abstract void deleteByIndex(int deleteIndex);
+
+    @Override
     public final Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {

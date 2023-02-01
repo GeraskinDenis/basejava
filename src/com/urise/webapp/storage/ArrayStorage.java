@@ -8,14 +8,9 @@ import com.urise.webapp.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            System.out.println("Ошибка! В базе отсутствует резюме с uuid = " + uuid);
-            return;
-        }
+    public void deleteByIndex(int deleteIndex) {
         size--;
-        storage[index] = storage[size];
+        storage[deleteIndex] = storage[size];
         storage[size] = null;
     }
 
