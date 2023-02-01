@@ -17,16 +17,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            System.out.println("Ошибка! В базе отсутствует резюме с uuid = " + uuid);
-            return null;
-        }
-        return storage[index];
-    }
-
-    @Override
     public int getIndex(String uuid) {
         Resume searchKey = new Resume();
         searchKey.setUuid(uuid);

@@ -19,6 +19,16 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     @Override
+    public final Resume get(String uuid) {
+        int index = getIndex(uuid);
+        if (index < 0) {
+            System.out.println("Ошибка! В базе отсутствует резюме с uuid = " + uuid);
+            return null;
+        }
+        return storage[index];
+    }
+
+    @Override
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
