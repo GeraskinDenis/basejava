@@ -20,15 +20,16 @@ public abstract class AbstractArrayStorage implements Storage {
 
     @Override
     public final void delete(String uuid) {
-        int deleteIndex = getIndex(uuid);
-        if (deleteIndex < 0) {
+        int index = getIndex(uuid);
+        if (index < 0) {
             System.out.println("Ошибка! В базе отсутствует резюме с uuid = " + uuid);
             return;
         }
-        deleteByIndex(deleteIndex);
+        deleteResume(index);
+        size--;
     }
 
-    protected abstract void deleteByIndex(int deleteIndex);
+    protected abstract void deleteResume(int index);
 
     @Override
     public final Resume get(String uuid) {
@@ -48,12 +49,30 @@ public abstract class AbstractArrayStorage implements Storage {
     public abstract int getIndex(String uuid);
 
     @Override
+    public final void save(Resume resume) {
+        if (size >= STORAGE_LIMIT) {
+            System.out.println("Ошибка сохранения! Закончилось место в хранилище.");
+            return;
+        }
+        String uuid = resume.getUuid();
+        int index = getIndex(uuid);
+        if (index >= 0) {
+            System.out.println("Ошибка сохранения! Резюме с uuid = '" + uuid + "' уже присутствует в хранилище.");
+            return;
+        }
+        saveResume(index, resume);
+        size++;
+    }
+
+    protected abstract void saveResume(int index, Resume resume);
+
+    @Override
     public int size() {
         return size;
     }
 
     @Override
-    public void update(Resume resume) {
+    public final void update(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index < 0) {
             System.out.println("Ошибка обновления резюме! В базе не найдено резюме с uuid = " + resume.getUuid());
