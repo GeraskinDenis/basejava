@@ -56,6 +56,7 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Ошибка сохранения! Резюме с uuid = '" + uuid + "' уже присутствует в хранилище.");
             return;
         }
+        index = -1 - index;
         saveResume(index, resume);
         size++;
     }
