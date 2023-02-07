@@ -18,7 +18,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void saveResume(int index, Resume resume) {
+    protected void saveResume(int index, Resume resume) {
         if (index != size) {
             System.arraycopy(storage, index, storage, index + 1, size - index);
         }
