@@ -12,9 +12,12 @@ import java.util.List;
 
 public abstract class AbstractStorageTest {
     protected final AbstractStorage storage;
-    protected final Resume RESUME_UUID_1 = new Resume("uuid1");
-    protected final Resume RESUME_UUID_2 = new Resume("uuid2");
-    protected final Resume RESUME_UUID_3 = new Resume("uuid3");
+    protected static final String UUID_1 = "uuid1";
+    protected static final Resume RESUME_UUID_1 = new Resume(UUID_1);
+    protected static final String UUID_3 = "uuid3";
+    protected static final Resume RESUME_UUID_3 = new Resume(UUID_3);
+    protected static final String UUID_5 = "uuid5";
+    protected static final Resume RESUME_UUID_5 = new Resume(UUID_5);
     protected static final String UUID_NOT_EXIST = "uuidNotExist";
 
     public AbstractStorageTest(AbstractStorage storage) {
@@ -25,21 +28,20 @@ public abstract class AbstractStorageTest {
     public void setUp() {
         storage.clear();
         storage.save(RESUME_UUID_1);
-        storage.save(RESUME_UUID_2);
         storage.save(RESUME_UUID_3);
+        storage.save(RESUME_UUID_5);
     }
 
     @Test
     public void clear() {
         storage.clear();
-        Assert.assertEquals(0, storage.size());
+        assertSize(0);
     }
 
     @Test
     public void delete() {
-        String uuid = RESUME_UUID_1.getUuid();
-        storage.delete(uuid);
-        Assert.assertNull(storage.get(uuid));
+        storage.delete(UUID_1);
+        assertGetAll(new Resume[]{RESUME_UUID_3, RESUME_UUID_5});
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -49,8 +51,9 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void get() {
-        String uuid = RESUME_UUID_1.getUuid();
-        Assert.assertEquals(uuid, storage.get(uuid).getUuid());
+        assertGet(RESUME_UUID_1);
+        assertGet(RESUME_UUID_3);
+        assertGet(RESUME_UUID_5);
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -60,41 +63,54 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAll() {
-        List<Resume> actuals = Arrays.asList(storage.getAll());
-        List<Resume> expecteds = Arrays.asList(RESUME_UUID_1, RESUME_UUID_2, RESUME_UUID_3);
-        Assert.assertEquals(expecteds.size(), actuals.size());
-        Assert.assertTrue(actuals.containsAll(expecteds));
-        Assert.assertTrue(expecteds.containsAll(actuals));
+        assertGetAll(new Resume[]{RESUME_UUID_1, RESUME_UUID_3, RESUME_UUID_5});
     }
 
     @Test
-    public void testSave() {
+    public void save() {
         String uuid4 = "uuid4";
         Resume expected = new Resume(uuid4);
         storage.save(expected);
-        Assert.assertSame(expected, storage.get(uuid4));
+        assertSize(4);
+        assertGet(expected);
     }
 
     @Test(expected = ExistStorageException.class)
-    public void testSaveExist() {
+    public void saveExist() {
         storage.save(RESUME_UUID_1);
     }
 
     @Test
-    public void testSize() {
-        Assert.assertEquals(3, storage.size());
+    public void size() {
+        assertSize(3);
     }
 
     @Test
-    public void testUpdate() {
-        String uuid1 = "uuid1";
-        Resume expected = new Resume(uuid1);
+    public void update() {
+        Resume expected = new Resume(UUID_1);
         storage.update(expected);
-        Assert.assertSame(expected, storage.get(uuid1));
+        Assert.assertSame(expected, storage.get(UUID_1));
+        assertSize(3);
     }
 
     @Test(expected = NotExistStorageException.class)
-    public void testUpdateNotExist() {
+    public void updateNotExist() {
         storage.update(new Resume(UUID_NOT_EXIST));
+    }
+
+    protected void assertSize(int expected) {
+        Assert.assertEquals(expected, storage.size());
+    }
+
+    private void assertGet(Resume expected) {
+        Assert.assertSame(expected.toString(), expected, storage.get(expected.getUuid()));
+    }
+
+    private void assertGetAll(Resume[] resumes) {
+        List<Resume> actuals = Arrays.asList(storage.getAll());
+        List<Resume> expecteds = Arrays.asList(resumes);
+        Assert.assertEquals(expecteds.size(), actuals.size());
+        Assert.assertTrue(actuals.containsAll(expecteds));
+        Assert.assertTrue(expecteds.containsAll(actuals));
     }
 }

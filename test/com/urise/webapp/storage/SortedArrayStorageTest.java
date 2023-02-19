@@ -7,25 +7,25 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class SortedArrayStorageTest extends AbstractArrayStorageTest {
+public class SortedArrayStorageTest extends AbstractStorageTest {
 
     public SortedArrayStorageTest() {
         super(new SortedArrayStorage());
     }
 
-    @Override
+    @Test
     public void deleteFirst() {
         storage.delete(UUID_1);
         assertDelete(new Resume[]{RESUME_UUID_3, RESUME_UUID_5});
     }
 
-    @Override
+    @Test
     public void deleteMiddle() {
         storage.delete(UUID_3);
         assertDelete(new Resume[]{RESUME_UUID_1, RESUME_UUID_5});
     }
 
-    @Override
+    @Test
     public void deleteLast() {
         storage.delete(UUID_5);
         assertDelete(new Resume[]{RESUME_UUID_1, RESUME_UUID_3});
@@ -55,10 +55,14 @@ public class SortedArrayStorageTest extends AbstractArrayStorageTest {
         assertSave(expecteds);
     }
 
+    private void assertDelete(Resume[] expecteds) {
+        Resume[] actuals = storage.getAll();
+        Assert.assertArrayEquals(expecteds, actuals);
+        assertSize(expecteds.length);
+    }
+
     private void assertSave(Resume[] expecteds) {
-        for (int i = 0; i < expecteds.length; i++) {
-            Assert.assertSame(expecteds[i], storage.storage[i]);
-        }
+        Assert.assertArrayEquals(expecteds, storage.getAll());
         assertSize(expecteds.length);
     }
 }
