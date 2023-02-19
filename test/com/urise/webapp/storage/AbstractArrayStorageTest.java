@@ -40,15 +40,6 @@ public abstract class AbstractArrayStorageTest {
         storage.size = 3;
     }
 
-    @Test
-    public abstract void deleteFirst();
-
-    @Test
-    public abstract void deleteMiddle();
-
-    @Test
-    public abstract void deleteLast();
-
     @Test(expected = NotExistStorageException.class)
     public void deleteNotExist() {
         storage.delete(UUID_NOT_EXIST);
@@ -145,4 +136,13 @@ public abstract class AbstractArrayStorageTest {
     protected Resume[] getResumes() {
         return new Resume[]{RESUME_UUID_1, RESUME_UUID_3, RESUME_UUID_5};
     }
+
+    @Test
+    public abstract void deleteFirst();
+
+    @Test
+    public abstract void deleteMiddle();
+
+    @Test
+    public abstract void deleteLast();
 }
