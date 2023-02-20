@@ -35,7 +35,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void clear() {
         storage.clear();
-        assertSize(0);
+        assertGetAll(new Resume[0]);
     }
 
     @Test
@@ -99,7 +99,7 @@ public abstract class AbstractStorageTest {
     }
 
     protected void assertSize(int expected) {
-        Assert.assertEquals(expected, storage.size());
+        Assert.assertEquals("The number of elements in storage is different!", expected, storage.size());
     }
 
     private void assertGet(Resume expected) {
