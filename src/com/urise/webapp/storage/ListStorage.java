@@ -5,13 +5,9 @@ import com.urise.webapp.model.Resume;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArrayListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage {
 
-    private final List<Resume> storage;
-
-    public ArrayListStorage() {
-        storage = new ArrayList<>();
-    }
+    private final List<Resume> storage = new ArrayList<>();
 
     @Override
     protected void doClear() {
