@@ -1,6 +1,5 @@
 package com.urise.webapp.model;
 
-import java.util.Comparator;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -8,8 +7,6 @@ import java.util.UUID;
  * 1 * Initial resume class
  */
 public class Resume implements Comparable<Resume> {
-
-    public static final Comparator<Resume> comparatorByNameUuid = new ComparatorByNameUuid();
 
     private final String uuid;
     private String fullName;
@@ -60,14 +57,5 @@ public class Resume implements Comparable<Resume> {
     @Override
     public int compareTo(Resume o) {
         return uuid.compareTo(o.uuid);
-    }
-
-    private static class ComparatorByNameUuid implements Comparator<Resume> {
-
-        @Override
-        public int compare(Resume r1, Resume r2) {
-            int c = r1.fullName.compareTo(r2.fullName);
-            return (c != 0) ? c : r1.uuid.compareTo(r2.uuid);
-        }
     }
 }

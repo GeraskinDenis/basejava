@@ -4,7 +4,9 @@ import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class AbstractStorage implements Storage {
     @Override
@@ -29,7 +31,12 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return doGetAllSorted();
+        return Arrays.stream(getAll())
+                .sorted((r1, r2) -> {
+                    int c = r1.getFullName().compareTo(r2.getFullName());
+                    return (c != 0) ? c : r1.getUuid().compareTo(r2.getUuid());
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -71,8 +78,6 @@ public abstract class AbstractStorage implements Storage {
     protected abstract Resume doGet(Object searchKey);
 
     protected abstract Resume[] doGetAll();
-
-    protected abstract List<Resume> doGetAllSorted();
 
     protected abstract void doSave(Object searchKey, Resume r);
 
