@@ -80,10 +80,8 @@ public class MainTestArrayStorage {
         resultOfSearch = ARRAY_STORAGE.get("dummy");
         System.out.println("Result of get(\"dummy\"): " + resultOfSearch);
 
-        System.out.println("\n*** Test of getAll() method***");
-        for (Resume r : ARRAY_STORAGE.getAll()) {
-            System.out.println(r);
-        }
+        System.out.println("\n*** Test of getAllSorted() method***");
+        ARRAY_STORAGE.getAllSorted().forEach(System.out::println);
 
         System.out.println("\n*** Testing the delete(\"uuid5\") method***");
         ARRAY_STORAGE.delete("uuid5");
@@ -107,8 +105,6 @@ public class MainTestArrayStorage {
 
     static void printAll() {
         System.out.println("Print All");
-        for (Resume r : ARRAY_STORAGE.getAll()) {
-            System.out.println(r);
-        }
+        ARRAY_STORAGE.getAllSorted().forEach(System.out::println);
     }
 }

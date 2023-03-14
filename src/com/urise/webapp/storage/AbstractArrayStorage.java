@@ -4,6 +4,8 @@ import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Array based storage for Resumes
@@ -35,6 +37,19 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
+    protected List<Resume> doGetAllSorted() {
+        return Arrays.stream(getAll())
+                .sorted(Resume.comparatorByNameUuid)
+                .collect(Collectors.toList());
+//        return Arrays.stream(getAll())
+//                .sorted((r1, r2) -> {
+//                    int c = r1.getFullName().compareTo(r2.getFullName());
+//                    return (c != 0) ? c : r1.getUuid().compareTo(r2.getUuid());
+//                })
+//                .collect(Collectors.toList());
+    }
+
+    @Override
     public final void doSave(Object searchKey, Resume r) {
         if (size >= STORAGE_LIMIT) {
             System.out.println("Ошибка сохранения! Закончилось место в хранилище.");
@@ -49,7 +64,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public final void doUpdate(Object searchKey, Resume r) {
+    protected void doUpdate(Object searchKey, Resume r) {
         storage[(int) searchKey] = r;
     }
 
@@ -63,7 +78,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return (int) searchKey > -1;
     }
 
-    protected abstract void deleteResume(int index);
+    protected abstract void deleteResume(int searchKey);
 
     protected abstract int getIndex(String uuid);
 

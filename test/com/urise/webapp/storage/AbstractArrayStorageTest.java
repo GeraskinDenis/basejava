@@ -20,16 +20,8 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
     }
 
     @Test
-    public void getIndex() {
-        Resume[] resumes = storage.getAll();
-        for (int index = 0; index < resumes.length; index++) {
-            assertGetIndex(index, resumes[index].getUuid());
-        }
-    }
-
-    @Test
     public void getIndexNotExistUUID() {
-        int expected = storage instanceof SortedArrayStorage ? -4 : -1;
+        int expected = storage instanceof SortedArrayStorage ? -5 : -1;
         Assert.assertEquals(expected, ((AbstractArrayStorage) storage).getIndex(UUID_NOT_EXIST));
     }
 
@@ -37,10 +29,6 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
         Resume[] actuals = storage.getAll();
         Assert.assertArrayEquals(expecteds, actuals);
         assertSize(expecteds.length);
-    }
-
-    private void assertGetIndex(int expected, String UUID) {
-        Assert.assertEquals(expected, ((AbstractArrayStorage) storage).getIndex(UUID));
     }
 
     @Test
@@ -51,6 +39,9 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
 
     @Test
     public abstract void deleteLast();
+
+    @Test
+    public abstract void getIndex();
 
     @Test
     public abstract void saveAtFirst();
