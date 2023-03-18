@@ -8,7 +8,7 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10_000;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
@@ -20,13 +20,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public final void doDelete(Object searchKey) {
-        deleteResume((int) searchKey);
+    public final void doDelete(Integer searchKey) {
+        deleteResume(searchKey);
     }
 
     @Override
-    public final Resume doGet(Object index) {
-        return storage[(int) index];
+    public final Resume doGet(Integer index) {
+
+        return storage[index];
     }
 
     @Override
@@ -35,12 +36,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public final void doSave(Object searchKey, Resume r) {
+    public final void doSave(Integer searchKey, Resume r) {
         if (size >= STORAGE_LIMIT) {
             System.out.println("Ошибка сохранения! Закончилось место в хранилище.");
             throw new StorageException("The storage is overflow!", r.getUuid());
         }
-        saveResume((int) searchKey, r);
+        saveResume(searchKey, r);
     }
 
     @Override
@@ -49,23 +50,23 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doUpdate(Object searchKey, Resume r) {
-        storage[(int) searchKey] = r;
+    protected void doUpdate(Integer searchKey, Resume r) {
+        storage[searchKey] = r;
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         return getIndex(uuid);
     }
 
     @Override
-    protected boolean isExist(Object searchKey) {
-        return (int) searchKey > -1;
+    protected boolean isExist(Integer searchKey) {
+        return searchKey > -1;
     }
 
-    protected abstract void deleteResume(int searchKey);
+    protected abstract void deleteResume(Integer searchKey);
 
-    protected abstract int getIndex(String uuid);
+    protected abstract Integer getIndex(String uuid);
 
-    protected abstract void saveResume(int index, Resume resume);
+    protected abstract void saveResume(Integer index, Resume resume);
 }
