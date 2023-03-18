@@ -31,7 +31,7 @@ public class MapStorageImproved extends AbstractStorage<Resume> {
 
     @Override
     protected void doSave(Resume searchKey, Resume r) {
-        storage.put(searchKey.getUuid(), r);
+        storage.put(r.getUuid(), r);
     }
 
     @Override
@@ -51,6 +51,6 @@ public class MapStorageImproved extends AbstractStorage<Resume> {
 
     @Override
     protected boolean isExist(Resume searchKey) {
-        return Objects.isNull(searchKey);
+        return Objects.nonNull(searchKey);
     }
 }
