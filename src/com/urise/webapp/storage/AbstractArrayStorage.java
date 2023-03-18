@@ -1,7 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
@@ -10,81 +8,65 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage implements Storage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10_000;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
     @Override
-    public void clear() {
+    public void doClear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
     @Override
-    public final void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            System.out.println("Ошибка! В базе отсутствует резюме с uuid = " + uuid);
-            throw new NotExistStorageException(uuid);
-        } else {
-            deleteResume(index);
-            size--;
-        }
+    public final void doDelete(Integer searchKey) {
+        deleteResume(searchKey);
     }
 
     @Override
-    public final Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            System.out.println("Ошибка! В базе отсутствует резюме с uuid = " + uuid);
-            throw new NotExistStorageException(uuid);
-        }
+    public final Resume doGet(Integer index) {
+
         return storage[index];
     }
 
     @Override
-    public Resume[] getAll() {
+    public Resume[] doGetAll() {
         return Arrays.copyOf(storage, size);
     }
 
     @Override
-    public final void save(Resume resume) {
-        String uuid = resume.getUuid();
-        int index = getIndex(uuid);
+    public final void doSave(Integer searchKey, Resume r) {
         if (size >= STORAGE_LIMIT) {
             System.out.println("Ошибка сохранения! Закончилось место в хранилище.");
-            throw new StorageException("The storage overflow!", uuid);
-        } else if (index >= 0) {
-            System.out.println("Ошибка сохранения! Резюме с uuid = '" + uuid + "' уже присутствует в хранилище.");
-            throw new ExistStorageException(uuid);
-        } else {
-            index = -1 - index;
-            saveResume(index, resume);
-            size++;
+            throw new StorageException("The storage is overflow!", r.getUuid());
         }
+        saveResume(searchKey, r);
     }
 
     @Override
-    public int size() {
+    public int doSize() {
         return size;
     }
 
     @Override
-    public final void update(Resume resume) {
-        String uuid = resume.getUuid();
-        int index = getIndex(uuid);
-        if (index < 0) {
-            System.out.println("Ошибка обновления резюме! В базе не найдено резюме с uuid = " + uuid);
-            throw new NotExistStorageException(uuid);
-        } else {
-            storage[index] = resume;
-        }
+    protected void doUpdate(Integer searchKey, Resume r) {
+        storage[searchKey] = r;
     }
 
-    protected abstract void deleteResume(int index);
+    @Override
+    protected Integer getSearchKey(String uuid) {
+        return getIndex(uuid);
+    }
 
-    public abstract int getIndex(String uuid);
+    @Override
+    protected boolean isExist(Integer searchKey) {
+        return searchKey > -1;
+    }
 
-    protected abstract void saveResume(int index, Resume resume);
+    protected abstract void deleteResume(Integer searchKey);
+
+    protected abstract Integer getIndex(String uuid);
+
+    protected abstract void saveResume(Integer index, Resume resume);
 }
