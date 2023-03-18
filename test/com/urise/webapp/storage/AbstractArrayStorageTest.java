@@ -5,9 +5,9 @@ import com.urise.webapp.model.Resume;
 import org.junit.Assert;
 import org.junit.Test;
 
-public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
+public abstract class AbstractArrayStorageTest extends AbstractStorageTest<AbstractArrayStorage> {
 
-    public AbstractArrayStorageTest(AbstractStorage storage) {
+    public AbstractArrayStorageTest(AbstractArrayStorage storage) {
         super(storage);
     }
 
@@ -21,8 +21,8 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
 
     @Test
     public void getIndexNotExistUUID() {
-        int expected = storage instanceof SortedArrayStorage ? -5 : -1;
-        Assert.assertEquals(expected, ((AbstractArrayStorage) storage).getIndex(UUID_NOT_EXIST));
+        Integer expected = storage instanceof SortedArrayStorage ? -5 : -1;
+        Assert.assertEquals(expected, storage.getIndex(UUID_NOT_EXIST));
     }
 
     protected void assertArrayEquals(Resume[] expecteds) {

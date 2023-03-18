@@ -41,15 +41,15 @@ public class SortedArrayStorageTest extends AbstractArrayStorageTest {
 
     @Override
     public void getIndex() {
-        Assert.assertEquals(0, ((AbstractArrayStorage) storage).getIndex(UUID_1));
-        Assert.assertEquals(1, ((AbstractArrayStorage) storage).getIndex(UUID_3));
-        Assert.assertEquals(2, ((AbstractArrayStorage) storage).getIndex(UUID_5));
-        Assert.assertEquals(3, ((AbstractArrayStorage) storage).getIndex(UUID_7));
+        Assert.assertEquals(Integer.valueOf(0), storage.getIndex(UUID_1));
+        Assert.assertEquals(Integer.valueOf(1), storage.getIndex(UUID_3));
+        Assert.assertEquals(Integer.valueOf(2), storage.getIndex(UUID_5));
+        Assert.assertEquals(Integer.valueOf(3), storage.getIndex(UUID_7));
     }
 
     @Override
     public void getIndexNotExistUUID() {
-        Assert.assertEquals(-5, ((AbstractArrayStorage) storage).getIndex(UUID_NOT_EXIST));
+        Assert.assertEquals(Integer.valueOf(-5), storage.getIndex(UUID_NOT_EXIST));
     }
 
     @Override
