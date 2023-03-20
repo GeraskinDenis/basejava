@@ -31,6 +31,13 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
+    protected List<Resume> doGetAllSorted() {
+        List<Resume> resumes = new ArrayList<>(storage);
+        resumes.sort(RESUME_COMPARATOR_BY_NAME_BY_UUID);
+        return resumes;
+    }
+
+    @Override
     protected void doSave(Integer index, Resume r) {
         storage.add(r);
     }
