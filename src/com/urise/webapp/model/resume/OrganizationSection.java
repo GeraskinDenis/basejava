@@ -2,6 +2,7 @@ package com.urise.webapp.model.resume;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class OrganizationSection extends Section {
     private final List<Organization> organizations = new ArrayList<>();
@@ -15,6 +16,7 @@ public class OrganizationSection extends Section {
     }
 
     public void setOrganization(Organization organization) {
+        Objects.requireNonNull(organization, "Parameter 'organization' must not be null.");
         organizations.add(organization);
     }
 

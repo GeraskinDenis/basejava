@@ -2,6 +2,7 @@ package com.urise.webapp.model.resume;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ListSection extends Section {
     private final List<String> list = new ArrayList<>();
@@ -14,8 +15,9 @@ public class ListSection extends Section {
         return list;
     }
 
-    public void setElement(String e) {
-        list.add(e);
+    public void setElement(String text) {
+        Objects.requireNonNull(text, "The text must can be null.");
+        list.add(text);
     }
 
     @Override

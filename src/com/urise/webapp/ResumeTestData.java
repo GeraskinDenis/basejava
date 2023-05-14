@@ -185,7 +185,7 @@ public class ResumeTestData {
         System.out.println("Contacts:");
         r1.getAllAddedContactTypes().forEach(e -> System.out.println(r1.getContact(e)));
 
-        r1.getAllAddedAddedSectionsTypes().forEach(e -> System.out.println(r1.getSection(e)));
+        r1.getAllAddedSectionsTypes().forEach(e -> System.out.println(r1.getSection(e)));
 
     }
 }

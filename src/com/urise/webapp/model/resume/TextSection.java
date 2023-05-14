@@ -7,6 +7,7 @@ public class TextSection extends Section {
 
     public TextSection(SectionType sectionType, String text) {
         super(sectionType);
+        Objects.requireNonNull(text, "Parameter 'text' must not be null.");
         this.text = text;
     }
 
@@ -15,6 +16,10 @@ public class TextSection extends Section {
     }
 
     public void setText(String text) {
+        Objects.requireNonNull(text, "Parameter 'text' must not be null.");
+        if (text.isEmpty()) {
+            throw new NullPointerException("Parameter 'text' must not be empty.");
+        }
         this.text = text;
     }
 
@@ -26,20 +31,15 @@ public class TextSection extends Section {
 
         TextSection that = (TextSection) o;
 
-        return Objects.equals(text, that.text);
+        return text.equals(that.text);
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + (text != null ? text.hashCode() : 0);
+        result = 31 * result + text.hashCode();
         return result;
     }
-
-//    @Override
-//    public String toString() {
-//        return String.format("SectionType: %s Text: %s", sectionType, text);
-//    }
 
     @Override
     public String toString() {

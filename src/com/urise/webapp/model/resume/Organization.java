@@ -10,6 +10,7 @@ public class Organization {
     private final List<Period> periods = new ArrayList<>();
 
     public Organization(String title) {
+        Objects.requireNonNull(title, "Parameter 'title' must not be null.");
         this.title = title;
     }
 
@@ -22,6 +23,7 @@ public class Organization {
     }
 
     public void setWebsite(String website) {
+        Objects.requireNonNull(website, "Parameter 'website' must not be null.");
         this.website = website;
     }
 
@@ -30,6 +32,7 @@ public class Organization {
     }
 
     public void setPeriod(Period period) {
+        Objects.requireNonNull(period, "Parameter 'period' must not be null.");
         periods.add(period);
     }
 

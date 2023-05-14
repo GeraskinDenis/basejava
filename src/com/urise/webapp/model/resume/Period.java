@@ -4,44 +4,38 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Period {
-    private String title;
-    private LocalDate start;
-    private LocalDate end;
+    private final String title;
+    private final LocalDate startDate;
+    private LocalDate endDate;
     private String description;
 
-    public Period(String title, LocalDate start) {
+    public Period(String title, LocalDate startDate) {
+        Objects.requireNonNull(title, "Parameter 'title' must not be null.");
+        Objects.requireNonNull(startDate, "Parameter 'starDate' must not be null.");
         this.title = title;
-        this.start = start;
+        this.startDate = startDate;
     }
 
-    public Period(String title, LocalDate start, LocalDate end) {
-        this.title = title;
-        this.start = start;
-        this.end = end;
+    public Period(String title, LocalDate startDate, LocalDate endDate) {
+        this(title, startDate);
+        Objects.requireNonNull(endDate, "Parameter 'endDate' must not be null.");
+        this.endDate = endDate;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public LocalDate getStart() {
-        return start;
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
-    public void setStart(LocalDate start) {
-        this.start = start;
-    }
-
-    public LocalDate getEnd() {
-        return end;
-    }
-
-    public void setEnd(LocalDate end) {
-        this.end = end;
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
     public String getDescription() {
@@ -59,17 +53,17 @@ public class Period {
 
         Period period = (Period) o;
 
-        if (!Objects.equals(title, period.title)) return false;
-        if (!Objects.equals(start, period.start)) return false;
-        if (!Objects.equals(end, period.end)) return false;
+        if (!title.equals(period.title)) return false;
+        if (!startDate.equals(period.startDate)) return false;
+        if (!Objects.equals(endDate, period.endDate)) return false;
         return Objects.equals(description, period.description);
     }
 
     @Override
     public int hashCode() {
-        int result = title != null ? title.hashCode() : 0;
-        result = 31 * result + (start != null ? start.hashCode() : 0);
-        result = 31 * result + (end != null ? end.hashCode() : 0);
+        int result = title.hashCode();
+        result = 31 * result + startDate.hashCode();
+        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
@@ -78,8 +72,8 @@ public class Period {
     public String toString() {
         return "Period{" +
                 "title='" + title + '\'' +
-                ", start=" + start +
-                ", end=" + end +
+                ", start=" + startDate +
+                ", end=" + endDate +
                 ", description='" + description + '\'' +
                 '}';
     }

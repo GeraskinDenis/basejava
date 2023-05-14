@@ -8,12 +8,15 @@ public class Contact {
     private String comment;
 
     public Contact(ContactType contactType, String contact) {
+        Objects.requireNonNull(contactType, "Parameter 'contactType' must not be null.");
+        Objects.requireNonNull(contact, "Parameter 'contact' must not be null.");
         this.contactType = contactType;
         this.contact = contact;
     }
 
     public Contact(ContactType contactType, String contact, String comment) {
         this(contactType, contact);
+        Objects.requireNonNull(comment, "Parameter 'comment' must not be null.");
         this.comment = comment;
     }
 
@@ -26,6 +29,7 @@ public class Contact {
     }
 
     public void setContact(String contact) {
+        Objects.requireNonNull(contact, "Parameter 'contact' must not be null.");
         this.contact = contact;
     }
 
@@ -34,6 +38,7 @@ public class Contact {
     }
 
     public void setComment(String comment) {
+        Objects.requireNonNull(comment, "Parameter 'comment' must not be null.");
         this.comment = comment;
     }
 

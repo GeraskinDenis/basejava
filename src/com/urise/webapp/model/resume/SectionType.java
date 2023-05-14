@@ -1,18 +1,16 @@
 package com.urise.webapp.model.resume;
 
 public enum SectionType {
-    PERSONAL("Личные качества", true),
-    OBJECTIVE("Позиция", true),
-    ACHIEVEMENT("Достижения", false),
-    QUALIFICATIONS("Квалификация", false),
-    EXPERIENCE("Опыт работы", false),
-    EDUCATION("Образование", false);
+    PERSONAL("Личные качества"),
+    OBJECTIVE("Позиция"),
+    ACHIEVEMENT("Достижения"),
+    QUALIFICATIONS("Квалификация"),
+    EXPERIENCE("Опыт работы"),
+    EDUCATION("Образование");
 
     public final String TITLE;
-    public final boolean IS_TEXT_SECTION;
 
-    SectionType(String title, boolean isTextSection) {
+    SectionType(String title) {
         this.TITLE = title;
-        this.IS_TEXT_SECTION = isTextSection;
     }
 }
