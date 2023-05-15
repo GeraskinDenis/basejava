@@ -15,7 +15,7 @@ public class ListSection extends Section {
         return list;
     }
 
-    public void setElement(String text) {
+    public void addElement(String text) {
         Objects.requireNonNull(text, "The text must can be null.");
         list.add(text);
     }

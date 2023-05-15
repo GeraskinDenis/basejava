@@ -31,7 +31,7 @@ public class Organization {
         return periods;
     }
 
-    public void setPeriod(Period period) {
+    public void addPeriod(Period period) {
         Objects.requireNonNull(period, "Parameter 'period' must not be null.");
         periods.add(period);
     }

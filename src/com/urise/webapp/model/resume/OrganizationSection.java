@@ -15,7 +15,7 @@ public class OrganizationSection extends Section {
         return organizations;
     }
 
-    public void setOrganization(Organization organization) {
+    public void addOrganization(Organization organization) {
         Objects.requireNonNull(organization, "Parameter 'organization' must not be null.");
         organizations.add(organization);
     }
