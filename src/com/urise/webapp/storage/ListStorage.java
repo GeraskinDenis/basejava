@@ -1,6 +1,6 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.model.Resume;
+import com.urise.webapp.model.resume.Resume;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +28,13 @@ public class ListStorage extends AbstractStorage<Integer> {
     @Override
     protected Resume[] doGetAll() {
         return storage.toArray(new Resume[0]);
+    }
+
+    @Override
+    protected List<Resume> doGetAllSorted() {
+        List<Resume> resumes = new ArrayList<>(storage);
+        resumes.sort(RESUME_COMPARATOR_BY_NAME_BY_UUID);
+        return resumes;
     }
 
     @Override
