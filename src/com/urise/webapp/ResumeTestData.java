@@ -5,6 +5,93 @@ import com.urise.webapp.model.resume.*;
 import java.time.LocalDate;
 
 public class ResumeTestData {
+    public static Resume createResume(String uuid, String fullName) {
+        Resume r = new Resume(uuid, fullName);
+        fillContacts(r);
+        fillPersonalSection(r);
+        fillObjectiveSection(r);
+        fillAchievementSection(r);
+        fillQualificationSection(r);
+        fillExperienceSection(r);
+        fillEducationSection(r);
+        return r;
+    }
+
+    private static void fillContacts(Resume r) {
+        r.setContact(new Contact(ContactType.MOBILEPHONE, "+9-999-999-9999"));
+        r.setContact(new Contact(ContactType.WORKPHONE, "+7-777-777-7777"));
+        r.setContact(new Contact(ContactType.EMAIL, "your.email@mail.com"));
+        r.setContact(new Contact(ContactType.GITHUB, "Your URL of GITHUB"));
+        r.setContact(new Contact(ContactType.LINKEDIN, "Your URL of LINKEDIN"));
+        r.setContact(new Contact(ContactType.SKYPE, "Your login of SKYPE"));
+        r.setContact(new Contact(ContactType.STACKOVERFLOW, "Your URL of STACKOVERFLOW"));
+        r.setContact(new Contact(ContactType.HOMEPAGE, "Your URL of HOMEPAGE"));
+    }
+
+    private static void fillPersonalSection(Resume r) {
+        Section section = new TextSection(SectionType.PERSONAL, "The text os personal section");
+        r.setSection(section);
+    }
+
+    private static void fillObjectiveSection(Resume r) {
+        Section section = new TextSection(SectionType.OBJECTIVE, "The text of objective section");
+        r.setSection(section);
+    }
+
+    private static void fillAchievementSection(Resume r) {
+        ListSection section = new ListSection(SectionType.ACHIEVEMENT);
+        section.addElement("The text of achievements 1");
+        section.addElement("The text of achievements 2");
+        section.addElement("The text of achievements 3");
+        r.setSection(section);
+    }
+
+    private static void fillQualificationSection(Resume r) {
+        ListSection section = new ListSection(SectionType.QUALIFICATIONS);
+        section.addElement("The text of qualification 1");
+        section.addElement("The text of qualification 2");
+        section.addElement("The text of qualification 3");
+        r.setSection(section);
+    }
+
+    private static void fillExperienceSection(Resume r) {
+        OrganizationSection section = new OrganizationSection(SectionType.EXPERIENCE);
+
+        Organization o = new Organization("Company 1");
+        o.setWebsite("https:\\company1.com\\");
+        o.addPeriod(new Period("Position 1", LocalDate.of(2000, 1, 1), LocalDate.of(2003, 3, 1)));
+        o.addPeriod(new Period("Position 2", LocalDate.of(2003, 3, 2), LocalDate.of(2005, 7, 1)));
+        section.addOrganization(o);
+
+        o = new Organization("Company 2");
+        o.setWebsite("https:\\company2.com\\");
+        o.addPeriod(new Period("Position 1", LocalDate.of(2005, 7, 2), LocalDate.of(2010, 3, 1)));
+        o.addPeriod(new Period("Position 2", LocalDate.of(2008, 3, 2)));
+        section.addOrganization(o);
+
+        r.setSection(section);
+    }
+
+    private static void fillEducationSection(Resume r) {
+        OrganizationSection section = new OrganizationSection(SectionType.EDUCATION);
+
+        Organization o = new Organization("Institute of higher education");
+        o.setWebsite("https:\\institute-of-higher-education.com\\");
+        Period p = new Period("Nameof faculty", LocalDate.of(1993, 9, 1), LocalDate.of(1998, 6, 1));
+        p.setDescription("Description of acquired knowledge / skills");
+        o.addPeriod(p);
+        section.addOrganization(o);
+
+        o = new Organization("Advanced training institute");
+        o.setWebsite("https:\\advanced-training-institute.com\\");
+        p = new Period("Profession name", LocalDate.of(2005, 8, 1), LocalDate.of(2006, 6, 1));
+        p.setDescription("Description of acquired knowledge / skills");
+        o.addPeriod(p);
+        section.addOrganization(o);
+
+        r.setSection(section);
+    }
+
     public static void main(String[] args) {
         Resume r1 = new Resume("Григорий Кислин");
 
