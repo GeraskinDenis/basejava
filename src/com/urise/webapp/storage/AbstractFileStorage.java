@@ -31,45 +31,44 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void doClear() {
-        File[] files = directory.listFiles();
+        File[] files = getAllFiles();
 
-        if (Objects.isNull(files)) {
-            return;
+        for (File file : files) {
+            doDelete(file);
         }
-
-        Arrays.stream(files).filter(File::exists)
-                .filter(File::isFile)
-                .forEach(File::delete);
     }
 
     @Override
     protected void doDelete(File file) {
-        Objects.requireNonNull(file, "The parameter 'file' must not be null!");
-        file.delete();
+        try {
+            file.delete();
+        } catch (Exception e) {
+            throw new StorageException("doDelete() error: " + file.getAbsolutePath(), "No uuid", e);
+        }
     }
 
     @Override
     protected Resume doGet(File file) {
-        Objects.requireNonNull(file, "The parameter 'file' must not be null!");
-        return readFile(file);
+        try {
+            return readFile(file);
+        } catch (IOException e) {
+            throw new StorageException("Resume read file error: " + file.getAbsolutePath(), "No uuid", e);
+        }
     }
 
     @Override
     protected Resume[] doGetAll() {
-        return Arrays.stream(directory.listFiles())
-                .filter(File::exists)
-                .filter(File::isFile)
-                .map(this::readFile)
-                .toArray(Resume[]::new);
+        File[] files = getAllFiles();
+        Resume[] resumes = new Resume[files.length];
+        for (int i = 0; i < resumes.length; i++) {
+            resumes[i] = doGet(files[i]);
+        }
+        return resumes;
     }
 
     @Override
     protected List<Resume> doGetAllSorted() {
-        return Arrays.stream(directory.listFiles())
-                .filter(File::exists)
-                .filter(File::isFile)
-                .map(this::readFile)
-                .sorted(Resume.UUID_COMPARATOR)
+        return Arrays.stream(getAll()).sorted(Resume.UUID_COMPARATOR)
                 .collect(Collectors.toList());
     }
 
@@ -87,10 +86,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected int doSize() {
-        return (int) Arrays.stream(directory.listFiles())
-                .filter(File::exists)
-                .filter(File::isFile)
-                .count();
+        return getAllFiles().length;
     }
 
     @Override
@@ -112,7 +108,17 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         return file.exists();
     }
 
+    private File[] getAllFiles() {
+        File[] files;
+        try {
+            files = directory.listFiles(File::isFile);
+        } catch (Exception e) {
+            throw new StorageException("I/O error: getAllFiles()", "No uuid", e);
+        }
+        return files;
+    }
+
     protected abstract void doWrite(Resume r, File file) throws IOException;
 
-    protected abstract Resume readFile(File file);
+    protected abstract Resume readFile(File file) throws IOException;
 }
