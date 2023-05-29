@@ -10,6 +10,8 @@ public class Resume implements Comparable<Resume> {
     private final Map<ContactType, Contact> contacts = new EnumMap<>(ContactType.class);
     private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
+    public static final uuidComparator UUID_COMPARATOR = new uuidComparator();
+
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
     }
@@ -98,5 +100,12 @@ public class Resume implements Comparable<Resume> {
     @Override
     public int compareTo(Resume o) {
         return uuid.compareTo(o.uuid);
+    }
+
+    private static final class uuidComparator implements Comparator<Resume> {
+        @Override
+        public int compare(Resume o1, Resume o2) {
+            return o1.uuid.compareTo(o2.uuid);
+        }
     }
 }
